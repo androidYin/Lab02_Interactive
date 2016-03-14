@@ -8,6 +8,9 @@ import android.widget.TextView;
 import java.text.NumberFormat;
 
 public class MainActivity extends AppCompatActivity {
+    // m: Member ( Data Member 資料成員)
+    private int mQuantity = 0; // 初始值
+    private int mPrice = 5;    // 初始值 $5
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,39 +21,41 @@ public class MainActivity extends AppCompatActivity {
 
     // Order 按鈕按下時執行 (好萊塢會找我們)
     public void submitOrder(View view) {
-        display(2);
+        displayTotalPrice();
     }
 
-    private void display(int number) {
+    private void displayQuantity() {
         TextView quantityTextView = (TextView)findViewById(R.id.quantity_text_view);
-        quantityTextView.setText(String.valueOf(number));
+        quantityTextView.setText(String.valueOf(mQuantity));
+    }
 
+    private void displayTotalPrice() {
         TextView priceTextView = (TextView)findViewById(R.id.price_text_view);
-        int price = 10;
-        int total = price * number;
+        int total = mPrice * mQuantity;
         String myString = NumberFormat.getCurrencyInstance().format(total);
-        priceTextView.setText(myString);
-
+        String message = myString + (mQuantity == 0 ? "\nFree" : "\nThank you!");
+        priceTextView.setText(message);
     }
 
     public void increment(View view) {
         // 從 TextView 取得目前數量，數量加 1 並顯示
-        int quanitty = getQuanitty();
-        display(++quanitty);
-    }
-
-    private int getQuanitty() {
-        TextView quantityTextView = (TextView)findViewById(R.id.quantity_text_view);
-        String quantityString = quantityTextView.getText().toString();
-        return Integer.parseInt(quantityString);
+        ++mQuantity;
+        displayQuantity();
+        resetTotolPrice();
     }
 
     public void decrement(View view) {
         // 從 TextView 取得目前數量，數量減 1 並顯示
-        int quanitty = getQuanitty();
-        if(quanitty > 0) {
-            display(--quanitty);
+        if(mQuantity > 0) {
+            --mQuantity;
+            displayQuantity();
+            resetTotolPrice();
         }
+    }
+
+    private void resetTotolPrice() {
+        TextView priceTextView = (TextView)findViewById(R.id.price_text_view);
+        priceTextView.setText("");
     }
 
 }
