@@ -33,5 +33,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void increment(View view) {
+        // 從 TextView 取得目前數量，數量加 1 並顯示
+        int quanitty = getQuanitty();
+        display(++quanitty);
+    }
+
+    private int getQuanitty() {
+        TextView quantityTextView = (TextView)findViewById(R.id.quantity_text_view);
+        String quantityString = quantityTextView.getText().toString();
+        return Integer.parseInt(quantityString);
+    }
+
+    public void decrement(View view) {
+        // 從 TextView 取得目前數量，數量減 1 並顯示
+        int quanitty = getQuanitty();
+        if(quanitty > 0) {
+            display(--quanitty);
+        }
+    }
 
 }
