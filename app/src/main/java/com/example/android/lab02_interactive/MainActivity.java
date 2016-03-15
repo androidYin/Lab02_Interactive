@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
     private int mQuantity = 0; // 初始值
     private int mPrice = 5;    // 初始值 $5
     private final String mNT$ = "NT$";
-    private StringBuilder mTotalPriceMessage = new StringBuilder("NT$");
+    private StringBuilder mTotalPriceMessage = new StringBuilder(mNT$); // 建立可重複使用的字串
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     // Order 按鈕按下時執行 (好萊塢會找我們)
     public void submitOrder(View view) {
-        displayTotalPrice();
-    }
 
-    private void displayQuantity() {
-        TextView quantityTextView = (TextView)findViewById(R.id.quantity_text_view);
-        quantityTextView.setText(String.valueOf(mQuantity));
+        displayTotalPrice();
     }
 
     private void displayTotalPrice() {
@@ -37,6 +33,11 @@ public class MainActivity extends AppCompatActivity {
         mTotalPriceMessage.delete(startIndex,endIndex).append(total)
                 .append(mQuantity == 0 ? "\nFree" : "\nThank you!");
         priceTextView.setText(mTotalPriceMessage);
+    }
+
+    private void displayQuantity() {
+        TextView quantityTextView = (TextView)findViewById(R.id.quantity_text_view);
+        quantityTextView.setText(String.valueOf(mQuantity));
     }
 
     public void increment(View view) {
