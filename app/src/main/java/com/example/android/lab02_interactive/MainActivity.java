@@ -31,35 +31,14 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText(mQuantityMessage);
     }
 
-    // 按下 + - button
-    public void increment(View view) {
-        ++mQuantity;
-        displayQuantityMessage();
-        resetPriceMessageString(); // 數量改變，重設價格訊息字串
-        displayPriceMessage(); // 重新顯示價格訊息
-    }
 
-    public void decrement(View view) {
-        if (mQuantity == 0) {
-            return;
-        }
-        --mQuantity;
-        displayQuantityMessage();
-        resetPriceMessageString(); // 數量改變，重設價格訊息字串
-        displayPriceMessage(); // 重新顯示價格訊息
-    }
 
     private void displayPriceMessage() {
         TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
         priceTextView.setText(mPriceMessage);
     }
 
-    // 按下 ORDER Button
-    public void submitOrder(View view) {
-        clearPriceMessageString(); // 刪除 mPriceMessage
-        concatPriceMessageString(); // 字串組合 人名 + 臭豆腐 + 是否加泡菜 + Free 或 NT$xxx Thank you!
-        displayPriceMessage(); // 重新顯示 mPriceMessage
-    }
+
 
     private void clearPriceMessageString() {
         int start = 0;
@@ -92,14 +71,57 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void clickToppings(View view) {
-        resetPriceMessageString();
-        displayPriceMessage();
-    }
-
     private void resetPriceMessageString() {
         clearPriceMessageString();
         mPriceMessage.append("臭豆腐")
                 .append("NT$").append(mPrice);
+    }
+
+    // 按下 泡菜 Button
+    public void clickToppings(View view) {
+        resetPriceMessageString();
+        displayPriceMessage();
+    }
+    // 按下 + button
+    public void increment(View view) {
+        ++mQuantity;
+        displayQuantityMessage();
+        resetPriceMessageString(); // 數量改變，重設價格訊息字串
+        displayPriceMessage(); // 重新顯示價格訊息
+    }
+    // 按下 + button
+    public void decrement(View view) {
+        if (mQuantity == 0) {
+            return;
+        }
+        --mQuantity;
+        displayQuantityMessage();
+        resetPriceMessageString(); // 數量改變，重設價格訊息字串
+        displayPriceMessage(); // 重新顯示價格訊息
+    }
+    // 按下 ORDER Button
+    public void submitOrder(View view) {
+        clearPriceMessageString(); // 刪除 mPriceMessage
+        concatPriceMessageString(); // 字串組合 人名 + 臭豆腐 + 是否加泡菜 + Free 或 NT$xxx Thank you!
+        displayPriceMessage(); // 重新顯示 mPriceMessage
+    }
+
+    public void mediator(View view) { // view 代表呼叫的來源是哪個 View
+        // method forward (轉給其他方法執行)
+        switch(view.getId()) {
+            case R.id.toppings_checkbox:
+                // 如果呼叫來源是 toppings_checkbox，轉給 clickToppings() 處理
+                clickToppings(view);
+                break;
+            case R.id.increment_button:
+                increment(view);
+                break;
+            case R.id.decrement_button:
+                decrement(view);
+                break;
+            case R.id.order_button:
+                submitOrder(view);
+                break;
+        }
     }
 }
